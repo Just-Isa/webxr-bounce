@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- #region[rgba(0, 0, 0, 1)] HEAD STUFF -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>WebXR</title>
+
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://unpkg.com/three@0.146.0/examples/js/objects/Reflector.js"></script>
+    <script src="https://unpkg.com/@c-frame/aframe-physics-system@4.2.3/dist/aframe-physics-system.min.js"></script>
+    <!-- #endregion -->
+    <script src="color-toggle.js"></script>
+    <script src="target-marker.js"></script>
+    <script src="mover.js"></script>
+    <script src="return-emitter.js"></script>
+    <script src="collision.js"></script>
+    <script src="player-move.js"></script>
+    <script src="lock-rotation.js"></script>
+    <script src="mirror.js"></script>
+    <script src="bounce.js"></script>
+    <script src="clickstart.js"></script>
+  </head>
+  <body>
+    <a-scene
+      shadow="type: pcfsoft"
+      cursor="rayOrigin: mouse;"
+      raycasteR="objects: .clickable"
+    >
+      <!-- #endregion -->
+
+      <!-- #region[rgba(200, 0, 10, 0.1)] SKYBOX -->
+      <!-- A-Frame comes with an asset management system -->
+      <a-assets>
+        <a-asset-item
+          id="cat-model"
+          src="/cat/12221_Cat_v1_l3.obj"
+        ></a-asset-item>
+        <a-asset-item
+          id="yaris-gltf"
+          src="/toyota_yaris_1999/scene.gltf"
+        ></a-asset-item>
+
+        <img id="cat-normal" src="cat/Cat_bump.jpg" />
+        <img id="cat-texture" src="cat/Cat_diffuse.jpg" />
+        <img id="skybox" src="field-with-purple-clouds.jpg" />
+        <audio response-type="arraybuffer" id="yaris" src="yarack.mp3"></audio>
+      </a-assets>
+      <!-- #endregion -->
+
+      <!-- #region[rgba(123,123,123,0.2)] LIGHTS -->
+      <a-entity light="type: ambient; color: blue; intensity: 0.2"></a-entity>
+
+      <a-entity
+        position="6 1 6"
+        rotation="0 45 0"
+        light="type: spot; target: #yarios; penumbra: 0.6; color: red; intensity: 5; shadowCameraVisible: true; angle: 30;castShadow: true; shadowMapWidth: 2048; shadowMapHeight: 2048;a"
+      ></a-entity>
+      <a-entity
+        position="-6 1 6"
+        rotation="0 -45 0"
+        light="type: spot; target: #yarios; penumbra: 0.6; color: yellow; intensity: 5; shadowCameraVisible: true; castShadow: true; angle: 30; shadowMapWidth: 2048; shadowMapHeight: 2048;a"
+      ></a-entity>
+
+      <!-- #region[rgba(100, 84, 20, 0.1)] OBJECTS -->
+      <!-- Z-Values negative da die Camera by default in die Scene reinschaut (schaut auf -Z) -->
+      <!-- Floor -->
+      <a-plane
+        position="0 0 0"
+        rotation="-90 0 0"
+        width="14"
+        height="14"
+        color="#fff"
+        material="roughness: 1; metalness: 0"
+        shadow="receive: true"
+        static-body
+      ></a-plane>
+
+      <!-- Ceiling -->
+      <a-box
+        static-body
+        position="0 6 0"
+        width="14"
+        height="0.2"
+        depth="14"
+        color="#FFF"
+      ></a-box>
+
+      <!-- Back Wall -->
+      <a-box
+        shadow="receive: true; cast: true;"
+        static-body
+        position="0 2 -7"
+        width="14"
+        height="8"
+        depth="0.2"
+        color="#FFF"
+        class="wall"
+        collision
+      ></a-box>
+
+      <!-- Back Mirrors -->
+      <a-box
+        mirror
+        static-body
+        position="-3 2.5 -6"
+        width="2"
+        height="4"
+        depth="0.01"
+        collision
+      ></a-box>
+
+      <a-box
+        mirror
+        static-body
+        position="0 2.5 -6"
+        width="2"
+        height="4"
+        depth="0.01"
+        collision
+      ></a-box>
+
+      <a-box
+        mirror
+        static-body
+        position="3 2.5 -6"
+        width="2"
+        height="4"
+        depth="0.01"
+        collision
+      ></a-box>
+
+      <!-- Front Wall -->
+      <a-box
+        shadow="receive: true; cast: true;"
+        static-body
+        position="0 2 7"
+        width="14"
+        height="8"
+        depth="0.2"
+        color="#FFF"
+        class="wall"
+        collision
+      ></a-box>
+
+      <!-- Left Wall -->
+      <a-box
+        shadow="receive: true; cast: true;"
+        static-body
+        position="-7 2 0"
+        width="0.2"
+        height="8"
+        depth="14"
+        color="#FFF"
+        class="wall"
+        collision
+      ></a-box>
+
+      <!-- Right Wall -->
+      <a-box
+        shadow="receive: true; cast: true;"
+        static-body
+        position="7 2 0"
+        width="0.2"
+        height="8"
+        depth="14"
+        color="#CFCFCF"
+        class="wall"
+        collision
+      ></a-box>
+
+      <!-- Objects inside the room -->
+      <!-- <a-box
+        shadow="receive: true; cast: true;"
+        position="-2 1 -2.5"
+        color="#4CC3D9"
+        return-emitter
+        mover
+        dynamic-body
+        class="clickable"
+      ></a-box>
+
+       <a-sphere
+        shadow="receive: true; cast: true;"
+        position="0 1.25 -3"
+        radius="1.25"
+        color="#EF2D5E"
+        mover
+        dynamic-body
+        class="clickable"
+      ></a-sphere>
+
+      <a-cylinder
+        shadow="receive: true; cast: true;"
+        position="2 1 -2"
+        radius="0.5"
+        height="1.5"
+        color="#FFC65D"
+        color-toggle
+        dynamic-body
+        mover
+        class="clickable"
+      ></a-cylinder> -->
+      <!-- #endregion -->
+
+      <!-- #region[rgba(20, 200, 100, 0.1)] SKYBOX -->
+      <a-sky src="#skybox"></a-sky>
+      <!-- #endregion -->
+
+      <!-- #region[rgba(200, 20, 200, 0.1)] CAR OBJECT -->
+      <a-entity
+        id="yarios"
+        clickstart
+        class="clickable"
+        dynamic-body="mass: 1000"
+        shadow="receive: true; cast: true;"
+        position="0 1 -1"
+        scale="1 1 1"
+        gltf-model="#yaris-gltf"
+        animation__pulse="
+                    property: scale;
+                    from: 1.2 1 1;
+                    to: 0.77 1.3 1;
+                    dur: 210;
+                    dir: alternate;
+                    loop: true;
+                    easing: easeInOutSine"
+        sound="src: #yaris; distanceModel: exponential; autoplay:false; loop:true; volume: 1; positional:true; refDistance: 3; rolloffFactor:5; maxDistance: 8;"
+      >
+      </a-entity>
+      <!-- #endregion -->
+
+      <!-- #region[rgba(200, 20, 20, 0.1)] BEST PRACTICE CAMERA RIG -->
+      <a-entity
+        id="rig"
+        position="0 1.6 5"
+        dynamic-body="mass: 5; shape: sphere; sphereRadius: 0.5;"
+        player-move
+        lock-rotation
+      >
+        <a-entity camera look-controls position="0 1 0">
+          <a-entity
+            shadow="receive: true; cast: true;"
+            position="0 -1.5 0"
+            rotation="-90 0 -180"
+            scale="0.02 0.02 0.02"
+            obj-model="obj: #cat-model"
+            material="src: #cat-texture; normalMap: #cat-normal; normalScale: 0.02 0.02; color: tomato"
+          >
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      <!-- #endregion -->
+
+      <!-- #region[rgba(50, 50, 0, 0.5)] VR CONTROLS -->
+      <a-entity
+        static-body="shape: sphere; sphereRadius: 0.02;"
+        hand-controls="hand: left"
+        grab
+      ></a-entity>
+      <a-entity
+        static-body="shape: sphere; sphereRadius: 0.02;"
+        hand-controls="hand: right"
+      ></a-entity>
+      <a-entity
+        id="leftHand"
+        laser-controls="hand: left"
+        raycaster="objects: .clickable; far: 5; showLine:true"
+        line="color: #CCCCCC"
+        pointer
+      ></a-entity>
+      <a-entity
+        id="rightHand"
+        laser-controls="hand: right"
+        raycaster="objects: .clickable; far: 5; showLine: true"
+        line="color: #CCCCCC"
+        pointer
+      ></a-entity>
+      <!-- #endregion -->
+    </a-scene>
+  </body>
+</html>
+w

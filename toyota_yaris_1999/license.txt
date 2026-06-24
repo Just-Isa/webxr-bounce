@@ -1,0 +1,11 @@
+Model Information:
+* title:	Toyota Yaris 1999
+* source:	https://sketchfab.com/3d-models/toyota-yaris-1999-7581a99e2b4f49b4bec56b35e388e943
+* author:	LEON elenaisakova248 (https://sketchfab.com/elenaisakova248)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Toyota Yaris 1999" (https://sketchfab.com/3d-models/toyota-yaris-1999-7581a99e2b4f49b4bec56b35e388e943) by LEON elenaisakova248 (https://sketchfab.com/elenaisakova248) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
