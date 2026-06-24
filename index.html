@@ -13,7 +13,6 @@
     <script src="https://unpkg.com/@c-frame/aframe-physics-system@4.2.3/dist/aframe-physics-system.min.js"></script>
     <!-- #endregion -->
     <script src="color-toggle.js"></script>
-    <script src="target-marker.js"></script>
     <script src="mover.js"></script>
     <script src="return-emitter.js"></script>
     <script src="collision.js"></script>
@@ -29,24 +28,26 @@
       cursor="rayOrigin: mouse;"
       raycasteR="objects: .clickable"
     >
-      <!-- #endregion -->
-
-      <!-- #region[rgba(200, 0, 10, 0.1)] SKYBOX -->
+      <!-- #region[rgba(200, 0, 10, 0.1)] ASSET MANAGEMENT -->
       <!-- A-Frame comes with an asset management system -->
       <a-assets>
         <a-asset-item
           id="cat-model"
-          src="/cat/12221_Cat_v1_l3.obj"
+          src="assets/cat/12221_Cat_v1_l3.obj"
         ></a-asset-item>
         <a-asset-item
           id="yaris-gltf"
-          src="/toyota_yaris_1999/scene.gltf"
+          src="assets/toyota_yaris_1999/scene.gltf"
         ></a-asset-item>
 
-        <img id="cat-normal" src="cat/Cat_bump.jpg" />
-        <img id="cat-texture" src="cat/Cat_diffuse.jpg" />
-        <img id="skybox" src="field-with-purple-clouds.jpg" />
-        <audio response-type="arraybuffer" id="yaris" src="yarack.mp3"></audio>
+        <img id="cat-normal" src="assets/cat/Cat_bump.jpg" />
+        <img id="cat-texture" src="assets/cat/Cat_diffuse.jpg" />
+        <img id="skybox" src="assets/field-with-purple-clouds.jpg" />
+        <audio
+          response-type="arraybuffer"
+          id="yaris"
+          src="assets/yarack.mp3"
+        ></audio>
       </a-assets>
       <!-- #endregion -->
 
@@ -63,6 +64,7 @@
         rotation="0 -45 0"
         light="type: spot; target: #yarios; penumbra: 0.6; color: yellow; intensity: 5; shadowCameraVisible: true; castShadow: true; angle: 30; shadowMapWidth: 2048; shadowMapHeight: 2048;a"
       ></a-entity>
+      <!-- #endregion -->
 
       <!-- #region[rgba(100, 84, 20, 0.1)] OBJECTS -->
       <!-- Z-Values negative da die Camera by default in die Scene reinschaut (schaut auf -Z) -->
