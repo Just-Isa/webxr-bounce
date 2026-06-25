@@ -6,7 +6,7 @@ AFRAME.registerComponent("mirror", {
     this.renderer = sceneEl.renderer;
 
     // new rendertarget & camera for the mirrors pov
-    this.rt = new THREE.WebGLRenderTarget(2048, 2048);
+    this.rt = new THREE.WebGLRenderTarget(512, 512);
     this.cam = new THREE.PerspectiveCamera(70, 1, 0.01, 20);
 
     // material of mirror

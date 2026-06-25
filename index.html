@@ -8,10 +8,14 @@
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <title>WebXR</title>
 
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     <script src="https://unpkg.com/three@0.146.0/examples/js/objects/Reflector.js"></script>
     <script src="https://unpkg.com/@c-frame/aframe-physics-system@4.2.3/dist/aframe-physics-system.min.js"></script>
+    <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
+    <link rel="stylesheet" href="style.css"></link>
     <!-- #endregion -->
+
+    <!-- #region[rgba(0, 120, 10, 0.2)] -->
     <script src="color-toggle.js"></script>
     <script src="mover.js"></script>
     <script src="return-emitter.js"></script>
@@ -21,12 +25,18 @@
     <script src="mirror.js"></script>
     <script src="bounce.js"></script>
     <script src="clickstart.js"></script>
+    <script src="volumecontrols.js"></script>
+    <!-- #endregion -->
   </head>
   <body>
+    <div class="volume-controls" onclick="event.stopPropagation()">
+      <input  class="glow" id="volume-slider" type="range" min="0" max="100" oninput="this.style='--val:'+this.value" />
+    </div>
     <a-scene
-      shadow="type: pcfsoft"
+      shadow="type: pcf"
       cursor="rayOrigin: mouse;"
       raycasteR="objects: .clickable"
+      loading-screen="dotsColor: white; backgroundColor: #363636"
     >
       <!-- #region[rgba(200, 0, 10, 0.1)] ASSET MANAGEMENT -->
       <!-- A-Frame comes with an asset management system -->
@@ -57,12 +67,12 @@
       <a-entity
         position="6 1 6"
         rotation="0 45 0"
-        light="type: spot; target: #yarios; penumbra: 0.6; color: red; intensity: 5; shadowCameraVisible: true; angle: 30;castShadow: true; shadowMapWidth: 2048; shadowMapHeight: 2048;a"
+        light="type: spot; target: #yarios; penumbra: 0.6; color: red; intensity: 5; shadowCameraVisible: true; angle: 30;castShadow: true; shadowMapWidth: 512; shadowMapHeight: 512;a"
       ></a-entity>
       <a-entity
         position="-6 1 6"
         rotation="0 -45 0"
-        light="type: spot; target: #yarios; penumbra: 0.6; color: yellow; intensity: 5; shadowCameraVisible: true; castShadow: true; angle: 30; shadowMapWidth: 2048; shadowMapHeight: 2048;a"
+        light="type: spot; target: #yarios; penumbra: 0.6; color: yellow; intensity: 5; shadowCameraVisible: true; castShadow: true; angle: 30; shadowMapWidth: 512; shadowMapHeight: 512;a"
       ></a-entity>
       <!-- #endregion -->
 
@@ -215,10 +225,11 @@
       <a-entity
         id="yarios"
         clickstart
+        volumecontrols
         class="clickable"
-        dynamic-body="mass: 1000"
+        dynamic-body="mass: 100"
         shadow="receive: true; cast: true;"
-        position="0 1 -1"
+        position="0 1.4 -1"
         scale="1 1 1"
         gltf-model="#yaris-gltf"
         animation__pulse="
@@ -229,7 +240,7 @@
                     dir: alternate;
                     loop: true;
                     easing: easeInOutSine"
-        sound="src: #yaris; distanceModel: exponential; autoplay:false; loop:true; volume: 1; positional:true; refDistance: 3; rolloffFactor:5; maxDistance: 8;"
+        sound="src: #yaris; distanceModel: exponential; autoplay:false; loop:true; positional:true; refDistance: 3; rolloffFactor:5; maxDistance: 8;"
       >
       </a-entity>
       <!-- #endregion -->
@@ -284,4 +295,3 @@
     </a-scene>
   </body>
 </html>
-w
